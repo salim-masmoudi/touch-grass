@@ -1,154 +1,104 @@
-# FastAPI Project - Frontend
+# TouchGrass App
 
-The frontend is built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [TanStack Query](https://tanstack.com/query), [TanStack Router](https://tanstack.com/router) and [Chakra UI](https://chakra-ui.com/).
+A responsive React application with a modern login page and dashboard interface.
 
-## Frontend development
+## Features
 
-Before you begin, ensure that you have either the Node Version Manager (nvm) or Fast Node Manager (fnm) installed on your system.
+- **Responsive Design**: Mobile-first approach with beautiful UI that works on all devices
+- **Login Page**: Clean, modern login form with validation
+- **Dashboard**: Empty dashboard ready for your content
+- **TypeScript**: Full TypeScript support for better development experience
+- **React Router**: Client-side routing between pages
+- **Modern Styling**: CSS with animations and hover effects
 
-* To install fnm follow the [official fnm guide](https://github.com/Schniz/fnm#installation). If you prefer nvm, you can install it using the [official nvm guide](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Getting Started
 
-* After installing either nvm or fnm, proceed to the `frontend` directory:
+### Prerequisites
 
+- Node.js (version 16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-cd frontend
-```
-* If the Node.js version specified in the `.nvmrc` file isn't installed on your system, you can install it using the appropriate command:
-
-```bash
-# If using fnm
-fnm install
-
-# If using nvm
-nvm install
-```
-
-* Once the installation is complete, switch to the installed version:
-
-```bash
-# If using fnm
-fnm use
-
-# If using nvm
-nvm use
+git clone <repository-url>
+cd touchgrass
 ```
 
-* Within the `frontend` directory, install the necessary NPM packages:
-
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-* And start the live server with the following `npm` script:
-
+3. Start the development server:
 ```bash
 npm run dev
 ```
 
-* Then open your browser at http://localhost:5173/.
+4. Open your browser and navigate to `http://localhost:5173`
 
-Notice that this live server is not running inside Docker, it's for local development, and that is the recommended workflow. Once you are happy with your frontend, you can build the frontend Docker image and start it, to test it in a production-like environment. But building the image at every change will not be as productive as running the local development server with live reload.
+## Usage
 
-Check the file `package.json` to see other available options.
+### Login
+- Use any email and password to login (demo mode)
+- The form validates that both fields are filled
+- Successful login redirects to the dashboard
 
-### Removing the frontend
+### Dashboard
+- Clean, responsive dashboard layout
+- Logout button in the header
+- Placeholder cards ready for your content
+- Mobile-optimized design
 
-If you are developing an API-only app and want to remove the frontend, you can do it easily:
+## Project Structure
 
-* Remove the `./frontend` directory.
-
-* In the `docker-compose.yml` file, remove the whole service / section `frontend`.
-
-* In the `docker-compose.override.yml` file, remove the whole service / section `frontend` and `playwright`.
-
-Done, you have a frontend-less (api-only) app. 🤓
-
----
-
-If you want, you can also remove the `FRONTEND` environment variables from:
-
-* `.env`
-* `./scripts/*.sh`
-
-But it would be only to clean them up, leaving them won't really have any effect either way.
-
-## Generate Client
-
-### Automatically
-
-* Activate the backend virtual environment.
-* From the top level project directory, run the script:
-
-```bash
-./scripts/generate-client.sh
+```
+src/
+├── components/          # Reusable components
+├── pages/              # Page components
+│   ├── LoginPage.tsx   # Login page
+│   └── DashboardPage.tsx # Dashboard page
+├── styles/             # CSS styles
+│   └── index.css       # Main stylesheet
+├── App.tsx             # Main app component
+└── main.tsx            # Entry point
 ```
 
-* Commit the changes.
+## Available Scripts
 
-### Manually
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
-* Start the Docker Compose stack.
+## Technologies Used
 
-* Download the OpenAPI JSON file from `http://localhost/api/v1/openapi.json` and copy it to a new file `openapi.json` at the root of the `frontend` directory.
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **CSS3** - Styling with responsive design
 
-* To generate the frontend client, run:
+## Responsive Design
 
-```bash
-npm run generate-client
-```
+The app is fully responsive with breakpoints at:
+- **Desktop**: 1200px and above
+- **Tablet**: 768px - 1199px
+- **Mobile**: 480px - 767px
+- **Small Mobile**: Below 480px
 
-* Commit the changes.
+## Customization
 
-Notice that everytime the backend changes (changing the OpenAPI schema), you should follow these steps again to update the frontend client.
+### Adding Content to Dashboard
+Edit `src/pages/DashboardPage.tsx` to add your dashboard content.
 
-## Using a Remote API
+### Styling
+Modify `src/styles/index.css` to customize the appearance.
 
-If you want to use a remote API, you can set the environment variable `VITE_API_URL` to the URL of the remote API. For example, you can set it in the `frontend/.env` file:
+### Authentication
+Replace the simple authentication logic in `src/App.tsx` with your backend integration.
 
-```env
-VITE_API_URL=https://api.my-domain.example.com
-```
+## License
 
-Then, when you run the frontend, it will use that URL as the base URL for the API.
-
-## Code Structure
-
-The frontend code is structured as follows:
-
-* `frontend/src` - The main frontend code.
-* `frontend/src/assets` - Static assets.
-* `frontend/src/client` - The generated OpenAPI client.
-* `frontend/src/components` -  The different components of the frontend.
-* `frontend/src/hooks` - Custom hooks.
-* `frontend/src/routes` - The different routes of the frontend which include the pages.
-* `theme.tsx` - The Chakra UI custom theme.
-
-## End-to-End Testing with Playwright
-
-The frontend includes initial end-to-end tests using Playwright. To run the tests, you need to have the Docker Compose stack running. Start the stack with the following command:
-
-```bash
-docker compose up -d --wait backend
-```
-
-Then, you can run the tests with the following command:
-
-```bash
-npx playwright test
-```
-
-You can also run your tests in UI mode to see the browser and interact with it running:
-
-```bash
-npx playwright test --ui
-```
-
-To stop and remove the Docker Compose stack and clean the data created in tests, use the following command:
-
-```bash
-docker compose down -v
-```
-
-To update the tests, navigate to the tests directory and modify the existing test files or add new ones as needed.
-
-For more information on writing and running Playwright tests, refer to the official [Playwright documentation](https://playwright.dev/docs/intro).
+This project is open source and available under the [MIT License](LICENSE).
