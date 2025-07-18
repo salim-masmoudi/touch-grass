@@ -1,5 +1,5 @@
 ## Stage 0: build using Node.js
-FROM node:20 AS build-stage
+FROM node:24 AS build-stage
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install
